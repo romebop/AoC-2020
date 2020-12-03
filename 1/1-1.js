@@ -1,16 +1,13 @@
-var fs = require('fs');
+const fs = require('fs');
 
 try {
   const dataArr = fs.readFileSync('1.input.txt', 'utf8')
-    .split(/\r?\n/)
+    .split('\r\n')
     .map(e => +e);
-  console.log(
-    solve(dataArr)
-  );
+  console.log(solve(dataArr));
 } catch (err) {
-  console.error(err)
+  console.error(err);
 }
-
 
 function solve(arr) {
   for (let i = 0; i < arr.length; i++) {
@@ -21,4 +18,5 @@ function solve(arr) {
       }
     }
   }
+  return -1;
 }

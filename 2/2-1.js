@@ -4,17 +4,15 @@ try {
   const entries = fs.readFileSync('2.input.txt', 'utf8')
     .split('\r\n')
     .map(entry => {
-      const [ policyInput, password ] = entry.split(': ');
-      const [ minMaxInput, letter ] = policyInput.split(' ');
-      const [ min, max ] = minMaxInput.split('-');
+      const [policyInput, password] = entry.split(': ');
+      const [minMaxInput, letter] = policyInput.split(' ');
+      const [min, max] = minMaxInput.split('-');
       return {
         policy: { letter, min, max },
         password,
       };
     });
-  console.log(
-    solve(entries)
-  );
+  console.log(solve(entries));
 } catch (err) {
   console.error(err);
 }
@@ -31,6 +29,6 @@ function letterCount(text, letter) {
 
 function isValidPassword({ password, policy }) {
   const { letter, min, max } = policy;
-  const count = letterCount(password, letter) 
+  const count = letterCount(password, letter);
   return count >= min && count <= max;
 }

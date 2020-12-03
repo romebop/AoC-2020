@@ -4,9 +4,9 @@ try {
   const entries = fs.readFileSync('2.input.txt', 'utf8')
     .split('\r\n')
     .map(entry => {
-      const [ policyInput, password ] = entry.split(': ');
-      const [ posInput, letter ] = policyInput.split(' ');
-      const [ pos1, pos2 ] = posInput.split('-');
+      const [policyInput, password] = entry.split(': ');
+      const [posInput, letter] = policyInput.split(' ');
+      const [pos1, pos2] = posInput.split('-');
       return {
         policy: {
           letter,
@@ -16,11 +16,9 @@ try {
         password,
       };
     });
-  console.log(
-    solve(entries)
-  );
+  console.log(solve(entries));
 } catch (err) {
-  console.error(err)
+  console.error(err);
 }
 
 function solve(entries) {
@@ -30,6 +28,6 @@ function solve(entries) {
 
 function isValidPassword({ password, policy }) {
   const { letter, idx1, idx2 } = policy;
-  return password[idx1] === letter && password[idx2] !== letter
-    || password[idx1] !== letter && password[idx2] === letter;
+  return (password[idx1] === letter && password[idx2] !== letter)
+    || (password[idx1] !== letter && password[idx2] === letter);
 }
