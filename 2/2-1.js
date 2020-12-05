@@ -1,21 +1,20 @@
 const fs = require('fs');
 
-try {
-  const entries = fs.readFileSync('2.input.txt', 'utf8')
-    .split('\r\n')
-    .map(entry => {
-      const [policyInput, password] = entry.split(': ');
-      const [minMaxInput, letter] = policyInput.split(' ');
-      const [min, max] = minMaxInput.split('-');
-      return {
-        policy: { letter, min, max },
-        password,
-      };
-    });
-  console.log(solve(entries));
-} catch (err) {
-  console.error(err);
-}
+const inputFile = process.argv.slice(2)[0];
+
+const entries = fs.readFileSync(inputFile, 'utf8')
+  .split('\n')
+  .map(entry => {
+    const [policyInput, password] = entry.split(': ');
+    const [minMaxInput, letter] = policyInput.split(' ');
+    const [min, max] = minMaxInput.split('-');
+    return {
+      policy: { letter, min, max },
+      password,
+    };
+  });
+
+console.log(solve(entries));
 
 function solve(entries) {
   return entries.map(isValidPassword)

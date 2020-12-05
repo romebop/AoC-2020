@@ -1,22 +1,20 @@
 const fs = require('fs');
 
-try {
-  const map = fs.readFileSync('3.input.txt', 'utf8')
-    .split('\r\n')
-    .map(line => line.split(''));
+const inputFile = process.argv.slice(2)[0];
 
-  const slopes = [
-    { right: 1, down: 1 },
-    { right: 3, down: 1 },
-    { right: 5, down: 1 },
-    { right: 7, down: 1 },
-    { right: 1, down: 2 },
-  ];
+const map = fs.readFileSync(inputFile, 'utf8')
+  .split('\n')
+  .map(line => line.split(''));
 
-  console.log(solve(map, slopes));
-} catch (err) {
-  console.error(err);
-}
+const slopes = [
+  { right: 1, down: 1 },
+  { right: 3, down: 1 },
+  { right: 5, down: 1 },
+  { right: 7, down: 1 },
+  { right: 1, down: 2 },
+];
+
+console.log(solve(map, slopes));
 
 function solve(map, slopes) {
   return slopes.map(slope => numTrees(map, slope))

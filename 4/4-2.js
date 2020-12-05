@@ -2,23 +2,19 @@ const fs = require('fs');
 
 const inputFile = process.argv.slice(2)[0];
 
-try {
-  const passports = fs.readFileSync(inputFile, 'utf8')
-    .split('\n\n')
-    .map(s => s.replace(/\n/g, ' ').split(' '))
-    .map(a => a.reduce((acc, curr) => {
-      const [key, val] = curr.split(':');
-      return { ...acc, [key]: val };
-    }, {}));
+const passports = fs.readFileSync(inputFile, 'utf8')
+  .split('\n\n')
+  .map(s => s.replace(/\n/g, ' ').split(' '))
+  .map(a => a.reduce((acc, curr) => {
+    const [key, val] = curr.split(':');
+    return { ...acc, [key]: val };
+  }, {}));
 
-  console.log(solve(passports));
-} catch (err) {
-  console.error(err);
-}
+console.log(solve(passports));
 
 function solve(passports) {
   return passports.map(isValidPassport)
-    .reduce((acc, curr) => acc + curr);
+    .reduce((acc, curr) => curr ? acc + 1 : acc, 0);
 }
 
 function isValidPassport(passport) {
@@ -46,14 +42,9 @@ function isValidPassport(passport) {
       isValid: v => {
         const number = v.slice(0, -2);
         const unit = v.slice(-2);
-        switch (unit) {
-          case 'cm':
-            return number >= 150 && number <= 193;
-          case 'in':
-            return number >= 59 && number <= 76;
-          default:
-            return false;
-        }
+        if (unit === 'cm') return number >= 150 && number <= 193;
+        if (unit === 'in') return number >= 59 && number <= 76;
+        return false;
       },
     },
     {
@@ -70,8 +61,10 @@ function isValidPassport(passport) {
     },
   ];
   for (const field of reqFields) {
-    if (!passport.hasOwnProperty(field.name)) return false;
-    if (!field.isValid(passport[field.name])) return false;
+    if (
+      !passport.hasOwnProperty(field.name)
+      || !field.isValid(passport[field.name])
+    ) return false;
   }
   return true;
 }

@@ -2,23 +2,19 @@ const fs = require('fs');
 
 const inputFile = process.argv.slice(2)[0];
 
-try {
-  const passports = fs.readFileSync(inputFile, 'utf8')
-    .split('\n\n')
-    .map(s => s.replace(/\n/g, ' ').split(' '))
-    .map(a => a.reduce((acc, curr) => {
-      const [key, val] = curr.split(':');
-      return { ...acc, [key]: val };
-    }, {}));
+const passports = fs.readFileSync(inputFile, 'utf8')
+  .split('\n\n')
+  .map(s => s.replace(/\n/g, ' ').split(' '))
+  .map(a => a.reduce((acc, curr) => {
+    const [key, val] = curr.split(':');
+    return { ...acc, [key]: val };
+  }, {}));
 
-  console.log(solve(passports));
-} catch (err) {
-  console.error(err);
-}
+console.log(solve(passports));
 
 function solve(passports) {
   return passports.map(isValidPassport)
-    .reduce((acc, curr) => acc + curr);
+    .reduce((acc, curr) => curr ? acc + 1 : acc, 0);
 }
 
 function isValidPassport(passport) {

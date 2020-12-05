@@ -1,19 +1,17 @@
 const fs = require('fs');
 
-try {
-  const map = fs.readFileSync('3.input.txt', 'utf8')
-    .split('\r\n')
-    .map(line => line.split(''));
+const inputFile = process.argv.slice(2)[0];
 
-  const slope = {
-    right: 3,
-    down: 1,
-  };
+const map = fs.readFileSync(inputFile, 'utf8')
+  .split('\n')
+  .map(line => line.split(''));
 
-  console.log(numTrees(map, slope));
-} catch (err) {
-  console.error(err);
-}
+const slope = {
+  right: 3,
+  down: 1,
+};
+
+console.log(numTrees(map, slope));
 
 function numTrees(map, slope) {
   const mapWidth = map[0].length;
