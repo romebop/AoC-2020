@@ -1,6 +1,9 @@
-node_modules/
 .eslintrc.js
-package.json
-package-lock.json
+.eslintignore
 *.input.txt
 *.example.txt
+new_day.sh
+node_modules/
+package.json
+package-lock.json
+tsconfig.json

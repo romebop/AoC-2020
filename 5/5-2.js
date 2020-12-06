@@ -12,8 +12,7 @@ console.log(solve(boardingPasses));
 
 function solve(boardingPasses) {
   const noFirstLastRow = boardingPasses.map(getSeatId)
-    .sort((a, b) => a - b)
-    .filter(id => id > (columnNum - 1) && id < (rowNum - 1) * columnNum);
+    .sort((a, b) => a - b);
 
   for (let i = 0; i < noFirstLastRow.length - 1; i++) {
     if (noFirstLastRow[i + 1] !== noFirstLastRow[i] + 1) return noFirstLastRow[i] + 1;
