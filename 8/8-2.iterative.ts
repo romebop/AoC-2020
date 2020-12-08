@@ -33,14 +33,11 @@ function solve(instructions: Instruction[], editMap: EditMap): number {
     const { operation } = instructions[i];
     if (Object.keys(editMap).includes(operation)) {
       const editedInstructions = editOperation(instructions, i, editMap[operation]);
-      if (isInfiniteLoop(editedInstructions)) {
-        continue;
-      } else {
-        return getAccumulator(editedInstructions);
-      }
+      if (isInfiniteLoop(editedInstructions)) continue;
+      return getAccumulator(editedInstructions);
     }
   }
-  return -1;
+  return -Infinity as never;
 }
 
 function isInfiniteLoop(instructions: Instruction[]): boolean {
