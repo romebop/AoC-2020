@@ -50,5 +50,4 @@ function solve(
         index + 1,
       );
   }
-  return -Infinity as never;
 }

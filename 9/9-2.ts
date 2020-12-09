@@ -11,8 +11,7 @@ const preambleLen = 25;
 console.log(solve(data, preambleLen));
 
 function solve(data: number[], preambleLen: number) {
-  const invalidNum = getInvalidNum(data, preambleLen);
-  if (!invalidNum) return;
+  const invalidNum = getInvalidNum(data, preambleLen) as number;
   const invalidIdx = data.indexOf(invalidNum);
   for (let i = 0; i < invalidIdx; i++) {
     for (let j = i + 1; j < invalidIdx; j++) {

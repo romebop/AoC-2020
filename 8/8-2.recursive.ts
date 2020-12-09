@@ -104,5 +104,4 @@ function getAccumulator(
         index + 1,
       );
   }
-  return -Infinity as never;
 }
