@@ -40,28 +40,6 @@ function solve(instructions: Instruction[], editMap: EditMap): number {
   return -Infinity as never;
 }
 
-function isInfiniteLoop(instructions: Instruction[]): boolean {
-  let index = 0;
-  const history = new Set();
-  while (index < instructions.length) {
-    if (history.has(index)) return true;
-    history.add(index);
-    const { operation, argument } = instructions[index];
-    switch (operation) {
-      case 'acc':
-        index++;
-        break;
-      case 'jmp':
-        index += argument;
-        break;
-      case 'nop':
-        index++;
-        break;
-    }
-  }
-  return false;
-}
-
 function editOperation(
   instructions: Instruction[],
   index: number,
@@ -75,6 +53,22 @@ function editOperation(
     },
     ...instructions.slice(index + 1),
   ];
+}
+
+function isInfiniteLoop(instructions: Instruction[]): boolean {
+  const history = new Set();
+  let index = 0;
+  while (index < instructions.length) {
+    if (history.has(index)) return true;
+    history.add(index);
+    const { operation, argument } = instructions[index];
+    if (operation === 'jmp') {
+      index += argument;
+    } else {
+      index++;
+    }
+  }
+  return false;
 }
 
 function getAccumulator(instructions: Instruction[]): number {
