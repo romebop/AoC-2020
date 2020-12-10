@@ -1,7 +1,6 @@
 .eslintrc.js
 .eslintignore
-*.input.txt
-*.example.txt
+*.txt
 new_day.sh
 node_modules/
 package.json

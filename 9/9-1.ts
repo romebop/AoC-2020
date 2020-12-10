@@ -18,9 +18,9 @@ function getInvalidNum(data: number[], preambleLen: number) {
 }
 
 function doesPass(target: number, preamble: number[]): boolean {
-  for (let j = 0; j < preamble.length; j++) {
-    for (let k = j + 1; k < preamble.length; k++) {
-      if (target === preamble[j] + preamble[k]) return true;
+  for (let i = 0; i < preamble.length; i++) {
+    for (let j = i + 1; j < preamble.length; j++) {
+      if (target === preamble[i] + preamble[j]) return true;
     }
   }
   return false;

@@ -16,7 +16,7 @@ function solve(data: number[], preambleLen: number) {
   for (let i = 0; i < invalidIdx; i++) {
     for (let j = i + 1; j < invalidIdx; j++) {
       const contArr = data.slice(i, j);
-      const sum = contArr.reduce((acc, curr) => acc + curr);
+      const sum = contArr.reduce((acc, curr) => acc + curr, 0);
       if (sum > invalidNum) continue;
       if (sum === invalidNum) return Math.min(...contArr) + Math.max(...contArr);
     }
@@ -31,9 +31,9 @@ function getInvalidNum(data: number[], preambleLen: number) {
 }
 
 function doesPass(target: number, preamble: number[]): boolean {
-  for (let j = 0; j < preamble.length; j++) {
-    for (let k = j + 1; k < preamble.length; k++) {
-      if (target === preamble[j] + preamble[k]) return true;
+  for (let i = 0; i < preamble.length; i++) {
+    for (let j = i + 1; j < preamble.length; j++) {
+      if (target === preamble[i] + preamble[j]) return true;
     }
   }
   return false;
