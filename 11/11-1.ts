@@ -10,14 +10,12 @@ const map: Position[][] = readFileSync(inputFile, 'utf8')
 
 console.log(solve(map));
 
-function solve(map: Position[][]) {
+function solve(map: Position[][]): number {
   let currentMap = map;
   let updatedMap = getUpdatedMap(map);
-  // printMap(updatedMap);
   while (!isSameMap(currentMap, updatedMap)) {
     currentMap = updatedMap;
     updatedMap = getUpdatedMap(currentMap);
-    // printMap(updatedMap);
   }
   return getOccupiedSeats(updatedMap);
 }
@@ -45,19 +43,18 @@ function getUpdatedMap(map: Position[][]): Position[][] {
 
 function getAdjacentPositions(map: Position[][], y: number, x: number): Position[] {
   const adjacentPositions = [];
-  const hasLeft = x - 1 >= 0;
-  const hasRight = x + 1 < map[0].length;
-  const hasTop = y - 1 >= 0;
-  const hasBottom = y + 1 < map.length;
-  if (hasTop) adjacentPositions.push(map[y - 1][x]);
-  if (hasTop && hasRight) adjacentPositions.push(map[y - 1][x + 1]);
-  if (hasRight) adjacentPositions.push(map[y][x + 1]);
-  if (hasBottom && hasRight) adjacentPositions.push(map[y + 1][x + 1]);
-  if (hasBottom) adjacentPositions.push(map[y + 1][x]);
-  if (hasBottom && hasLeft) adjacentPositions.push(map[y + 1][x - 1]);
-  if (hasLeft) adjacentPositions.push(map[y][x - 1]);
-  if (hasTop && hasLeft) adjacentPositions.push(map[y - 1][x - 1]);
+  for (let i = y - 1; i <= y + 1; i++) {
+    for (let j = x - 1; j <= x + 1; j++) {
+      if (y === i && x === j) continue;
+      if (!isOutOfBounds(map, i, j)) adjacentPositions.push(map[i][j]);
+    }
+  }
   return adjacentPositions as Position[];
+}
+
+function isOutOfBounds(map: Position[][], y: number, x: number): boolean {
+  return (y < 0 || y >= map.length)
+    || (x < 0 || x >= map[0].length);
 }
 
 function isSameMap(map1: Position[][], map2: Position[][]): boolean {
