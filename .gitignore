@@ -1,8 +1,9 @@
 .eslintrc.js
 .eslintignore
+.vscode
 *.txt
 new_day.sh
-node_modules/
+node_modules
 package.json
 package-lock.json
 tsconfig.json
