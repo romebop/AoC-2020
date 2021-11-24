@@ -14,6 +14,7 @@ function solve(map: Position[][]): number {
   let currentMap = map;
   let updatedMap = getUpdatedMap(map);
   while (!isSameMap(currentMap, updatedMap)) {
+    // printMap(currentMap);
     currentMap = updatedMap;
     updatedMap = getUpdatedMap(currentMap);
   }
@@ -26,14 +27,14 @@ function getUpdatedMap(map: Position[][]): Position[][] {
     updatedMap.push([]);
     for (let x = 0; x < map[0].length; x++) {
       const currPosition: Position = map[y][x];
-      const adjacentPositions: Position[] = getAdjacentPositions(map, y, x);
+      const visibleOccupiedSeats = getVisibleOccupiedSeats(map, y, x);
       if (
         currPosition === 'L'
-        && !adjacentPositions.includes('#')
+        && visibleOccupiedSeats === 0
       ) updatedMap[y].push('#');
       else if (
         currPosition === '#'
-        && adjacentPositions.filter(p => p === '#').length >= 4
+        && visibleOccupiedSeats >= 5
       ) updatedMap[y].push('L');
       else updatedMap[y].push(currPosition);
     }
@@ -41,15 +42,36 @@ function getUpdatedMap(map: Position[][]): Position[][] {
   return updatedMap;
 }
 
-function getAdjacentPositions(map: Position[][], y: number, x: number): Position[] {
-  const adjacentPositions = [];
-  for (let i = y - 1; i <= y + 1; i++) {
-    for (let j = x - 1; j <= x + 1; j++) {
-      if (y === i && x === j) continue;
-      if (!isOutOfBounds(map, i, j)) adjacentPositions.push(map[i][j]);
-    }
+function getVisibleOccupiedSeats(map: Position[][], y: number, x: number): number {
+  let visibleOccupiedSeats = 0;
+  if (seesVisibleSeat(map, y, x, 1, 0)) visibleOccupiedSeats += 1;
+  if (seesVisibleSeat(map, y, x, 1, 1)) visibleOccupiedSeats += 1;
+  if (seesVisibleSeat(map, y, x, 0, 1)) visibleOccupiedSeats += 1;
+  if (seesVisibleSeat(map, y, x, -1, 1)) visibleOccupiedSeats += 1;
+  if (seesVisibleSeat(map, y, x, -1, 0)) visibleOccupiedSeats += 1;
+  if (seesVisibleSeat(map, y, x, -1, -1)) visibleOccupiedSeats += 1;
+  if (seesVisibleSeat(map, y, x, 0, -1)) visibleOccupiedSeats += 1;
+  if (seesVisibleSeat(map, y, x, 1, -1)) visibleOccupiedSeats += 1;
+  return visibleOccupiedSeats;
+}
+
+function seesVisibleSeat(
+  map: Position[][],
+  y: number,
+  x: number,
+  yStep: number,
+  xStep: number
+): boolean {
+  let currY = y + yStep;
+  let currX = x + xStep;
+  while (!isOutOfBounds(map, currY, currX)) {
+    const currPosition = map[currY][currX];
+    if (currPosition === '#') return true;
+    if (currPosition === 'L') return false;
+    currY += yStep;
+    currX += xStep;
   }
-  return adjacentPositions as Position[];
+  return false;
 }
 
 function isOutOfBounds(map: Position[][], y: number, x: number): boolean {
