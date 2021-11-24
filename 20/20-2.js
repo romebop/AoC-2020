@@ -27,12 +27,10 @@ const seaMonsterHeight = seaMonsterPixels.length;
 console.log(solve(tiles));
 
 function solve(tiles) {
-  // find and orient corner tile
   const cornerTile = getCornerTile(tiles);
   const cornerTileIdx = tiles.findIndex(tile => tile.id === cornerTile.id);
   const tileGrid = [tiles.splice(cornerTileIdx, 1)];
   orientCornerTile(cornerTile, tiles);
-  // build tile grid
   for (let y = 0; y < sideLength; y++) {
     for (let x = 0; x < sideLength; x++) {
       const thisTile = tileGrid[y][x];
@@ -74,7 +72,6 @@ function solve(tiles) {
   const pixelsGrid = tileGrid.map(row =>
     row.map(tile => removeBorders(tile.pixels))
   );
-  // build image
   const tileLength = pixelsGrid[0][0].length;
   let image = [];
   for (let y = 0; y < tileLength * sideLength; y++) {
@@ -92,10 +89,8 @@ function solve(tiles) {
     image = flipPixels(image);
     for (let sideCount = 1; sideCount <= 4; sideCount++) {
       image = rotatePixels(image);
-      // label sea monsters
       for (let y = 0; y < image.length - seaMonsterHeight; y++) {
         for (let x = 0; x < image[0].length - seaMonsterWidth; x++) {
-          // check sea monster from coordinate
           let isSeaMonsterFound = true;
           for (let offsetY = 0; offsetY < seaMonsterHeight; offsetY++) {
             for (let offsetX = 0; offsetX < seaMonsterWidth; offsetX++) {
@@ -106,7 +101,6 @@ function solve(tiles) {
               }
             }
           }
-          // if found then mark
           if (isSeaMonsterFound) {
             for (let offsetY = 0; offsetY < seaMonsterHeight; offsetY++) {
               for (let offsetX = 0; offsetX < seaMonsterWidth; offsetX++) {
@@ -120,7 +114,6 @@ function solve(tiles) {
         }
       }
       if (image.flat().includes('O')) {
-        console.log(getPixelsStr(image));
         return image.flat().reduce((count, pixel) => (
           count + (pixel === '#' ? 1 : 0)
         ), 0); 
